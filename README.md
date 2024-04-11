@@ -1,7 +1,5 @@
 # Follow these simple steps to run the project
 
----
-
 First install all the node modules
 
 ### `npm install`
