@@ -12,5 +12,5 @@ Then run the app
 
 ---
 
-**This will bundle the js module and start an express server to serve the project on localhost:3000**
-**Open localhost:3000 in browser to see the bookstore!**
+**This will bundle the js module and start an express server to serve the project on localhost:3000. 
+Open localhost:3000 in browser to see the bookstore!**
