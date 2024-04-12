@@ -6,16 +6,11 @@ First install all the node modules
 
 ---
 
-Builds the app for production to the `build` folder.
+Then run the app
 
-### `npm run build:dev`
-
----
-
-Then start the server 
-
-### `node build/server.bundle.js`
+### `npm start`
 
 ---
 
+**This will bundle the js module and start an express server to serve the project on localhost:3000**
 **Open localhost:3000 in browser to see the bookstore!**
