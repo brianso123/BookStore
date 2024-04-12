@@ -1,57 +1,45 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import styled from "styled-components";
-import EditBookModal from "./Modals/EditBookModal";
-import { useAppDispatch } from "../store/hooks";
-import { deleteBook, Book } from "../slice/BookListSlice";
+import EditBookModal from "../modals/editBook/EditBookModal";
+import { useAppDispatch } from "../../stores/hooks";
+import { deleteBook, Book } from "../../stores/BookListSlice";
 
-interface Props {
+interface BookItemProps {
   book: Book;
 }
 
-const BookDisplay: React.FC<Props> = ({ book }) => {
-  const [isOpenDetails, setIsOpenDetails] = useState<boolean>(false);
+export default function BookItem({ book }: BookItemProps) {
+  // for controlling the opening and closing of the edit modal
+  const [openEditBookModal, setOpenEditBookModal] = useState<boolean>(false);
 
   const dispatch = useAppDispatch();
 
-  const DeleteBook = () => {
-    dispatch(deleteBook(book));
-  };
-
   return (
     <BookContainer>
-      <BookInnerContainer onClick={() => setIsOpenDetails(true)}>
-        {isOpenDetails ? (
-          <EditBookModal book={book} setOpen={setIsOpenDetails} />
+      {/* if the book item is clicked, open the modal  */}
+      <BookInnerContainer onClick={() => setOpenEditBookModal(true)}>
+        {/* only render the modal when needed */}
+        {openEditBookModal ? (
+          <EditBookModal book={book} setOpen={setOpenEditBookModal} />
         ) : (
           <></>
         )}
-        <LeftContainer book={book} />
-        <RightContainer book={book} />
+        <BookLeftContainer>
+          <BookTitle>{book.name}</BookTitle>
+          <BookCategory>{book.category}</BookCategory>
+          <BookDesc>{book.desc}</BookDesc>
+        </BookLeftContainer>
+        <BookRightContainer>
+          <PriceText>{"$" + book.price}</PriceText>
+        </BookRightContainer>
       </BookInnerContainer>
       <DeleteButton onClick={DeleteBook}>Delete</DeleteButton>
     </BookContainer>
   );
-};
 
-export default BookDisplay;
-
-function LeftContainer({ book }: Props) {
-  return (
-    <BookLeftContainer>
-      <BookTitle>{book.name}</BookTitle>
-
-      <BookCategory>{book.category}</BookCategory>
-      <BookDesc>{book.desc}</BookDesc>
-    </BookLeftContainer>
-  );
-}
-
-function RightContainer({ book }: Props) {
-  return (
-    <BookRightContainer>
-      <PriceText>{"$" + book.price}</PriceText>
-    </BookRightContainer>
-  );
+  function DeleteBook() {
+    dispatch(deleteBook(book));
+  }
 }
 
 const BookContainer = styled.div`
@@ -72,6 +60,7 @@ const BookInnerContainer = styled.div`
   padding: 15px 20px;
   border: 1px solid black;
   border-radius: 8px;
+  cursor: pointer;
 `;
 
 const BookLeftContainer = styled.div`

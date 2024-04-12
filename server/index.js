@@ -1,15 +1,15 @@
 import express from "express";
 import path from "path";
-import { renderToPipeableStream, renderToString } from "react-dom/server";
+import { renderToPipeableStream } from "react-dom/server";
 import App from "../client/App.tsx";
 import React from "react";
 
 const app = express();
 
 app.use(express.static(path.resolve(__dirname, "../build")));
-app.use(express.static(path.resolve(__dirname, "../assets")));
 
 app.get("/*", (req, res) => {
+  // render the js bundle and stream to the user
   const stream = renderToPipeableStream(<App />, {
     bootstrapScripts: ["client.bundle.js"],
     onShellReady() {
@@ -17,10 +17,8 @@ app.get("/*", (req, res) => {
       stream.pipe(res);
     },
   });
-  // const html = renderToString(<App />);
-  // res.send(html);
 });
 
 app.listen(3000, () => {
-  console.log("listening on port 3000");
+  console.log("listening on localhost:3000");
 });

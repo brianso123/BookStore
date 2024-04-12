@@ -1,5 +1,5 @@
 import { PayloadAction, createSlice } from "@reduxjs/toolkit";
-import type { RootState } from "../store/store";
+import type { RootState } from "./store";
 
 export interface Book {
   id: string;
@@ -11,6 +11,7 @@ export interface Book {
 
 type BookListState = Book[];
 
+// some random books as the initial state
 const initialState: BookListState = [
   {
     id: "1",
@@ -46,13 +47,16 @@ export const BookListSlice = createSlice({
   name: "BookList",
   initialState,
   reducers: {
+    // first reducer to add books
     addBook: (state, action: PayloadAction<Book>) => {
       return [...state, action.payload];
     },
+    // reducer for deleting books
     deleteBook: (state, action: PayloadAction<Book>) => {
       const newList = state.filter((item) => item.id !== action.payload.id);
       return newList;
     },
+    // reducer for updating books
     updateBook: (state, action: PayloadAction<Book>) => {
       const newList = state.map((x) =>
         x.id === action.payload.id ? action.payload : x
@@ -63,5 +67,4 @@ export const BookListSlice = createSlice({
 });
 
 export const { addBook, deleteBook, updateBook } = BookListSlice.actions;
-export const selectCount = (state: RootState) => state.bookList.values;
 export default BookListSlice.reducer;

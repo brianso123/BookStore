@@ -1,10 +1,11 @@
 import React, { ReactNode } from "react";
 
-interface Props {
+interface HTMLWrapperProps {
   children: ReactNode;
 }
 
-const HTMLWrapper: React.FC<Props> = ({ children }) => {
+// just a simple html wrapper to wrap the whole app
+const HTMLWrapper: React.FC<HTMLWrapperProps> = ({ children }) => {
   return (
     <html>
       <head></head>
